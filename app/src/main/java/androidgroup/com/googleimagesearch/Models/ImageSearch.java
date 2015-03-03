@@ -14,7 +14,7 @@ public class ImageSearch {
     public String tbUrl;
     public String url;
     public String title;
-    public static List<ImageSearch> images;
+    public static List<ImageSearch> images = new ArrayList<ImageSearch>();;
 
     ImageSearch(JSONObject jsonObject){
         try {
@@ -28,7 +28,6 @@ public class ImageSearch {
 
     public static List<ImageSearch> getImages(JSONArray jsonArray){
         try {
-            images = new ArrayList<ImageSearch>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 images.add(new ImageSearch(jsonArray.getJSONObject(i)));
             }

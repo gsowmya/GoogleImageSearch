@@ -81,7 +81,7 @@ public class MainActivity extends ActionBarActivity  implements DialogFragmentLi
 
     public static String buildUrl(String query,int page) {
         StringBuilder builder = new StringBuilder();
-        String url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query;
+        String url = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query+"&start="+((page-1) * 4);
         builder.append(url);
         imageSize = dialogValues.get("ImageSize");
         imageColor = dialogValues.get("ImageColor");
@@ -101,6 +101,8 @@ public class MainActivity extends ActionBarActivity  implements DialogFragmentLi
     @Override
     public void onReturnValue(HashMap<String, String> map) {
         dialogValues = map;
+        adapter.clear();
+        getImagesForQuery(enteredQuery,1);
 
     }
 
@@ -125,6 +127,9 @@ public class MainActivity extends ActionBarActivity  implements DialogFragmentLi
     public static void getImagesForQuery(String query,int page) {
         if("".equals(query)) return;
         // String query = txtQuery.getText().toString();
+        if(page ==1){
+            loadMoreListener.resetCounter();
+        }
         String url = buildUrl(query,page);
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new JsonHttpResponseHandler() {
@@ -132,10 +137,10 @@ public class MainActivity extends ActionBarActivity  implements DialogFragmentLi
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.i("response", response.toString());
                 try {
-                    loadMoreListener.resetCounter();
                     JSONObject json = response.getJSONObject("responseData");
                     images = ImageSearch.getImages(json.getJSONArray("results"));
                     adapter.addAll(images);
+                    adapter.notifyDataSetChanged();
                     Log.i("images", images.toString());
                 } catch (Exception e) {
                 }
@@ -154,7 +159,7 @@ public class MainActivity extends ActionBarActivity  implements DialogFragmentLi
     /**
      * A placeholder fragment containing a simple view.
      */
-    public  class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
         }
