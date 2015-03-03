@@ -17,3 +17,6 @@ Optional user story:
 Used ActionBar SearchView or custom layout as the query box instead of an EditText
 
 Screen shots:
+
+![googleimagesearch](https://cloud.githubusercontent.com/assets/6395284/6464126/e30de132-c16c-11e4-80f7-7178ac0174b3.gif)
+
