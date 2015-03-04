@@ -138,8 +138,8 @@ public class MainActivity extends ActionBarActivity  implements DialogFragmentLi
                 Log.i("response", response.toString());
                 try {
                     JSONObject json = response.getJSONObject("responseData");
-                    images = ImageSearch.getImages(json.getJSONArray("results"));
-                    adapter.addAll(images);
+                    List<ImageSearch> imageSearchResult = ImageSearch.getImages(json.getJSONArray("results"));
+                    images.addAll(imageSearchResult);
                     adapter.notifyDataSetChanged();
                     Log.i("images", images.toString());
                 } catch (Exception e) {
